@@ -1,7 +1,6 @@
 # List of required packages (Dependencies)
 telegram
 datetime
-nltk
 requests
 bs4
 beautifulsoup4
