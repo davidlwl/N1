@@ -20,12 +20,13 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 import time
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
 
 
-bot = telegram.Bot(token='343469925:AAHrvVL-rW3ixMG95u2-ehzPus5k5qmvNTE')
-updater = Updater(token='343469925:AAHrvVL-rW3ixMG95u2-ehzPus5k5qmvNTE')
+
+
+
+bot = telegram.Bot(token='536898310:AAHmGVSAniSKvzouu8-TVrTx2qqiGzaX7qE')
+updater = Updater(token='536898310:AAHmGVSAniSKvzouu8-TVrTx2qqiGzaX7qE')
 dispatcher = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 updater.start_polling()
@@ -33,140 +34,78 @@ updater.start_polling()
 def start(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
-    bot.sendMessage(chat_id=update.message.chat_id, text= "I'm ahbid, please talk to me! \nType /shows to view movies/tv shows, \nType /weather to get the weather, \nType /news to get the latest news, \nOr simple type anything to begin our conversation! ")
-        
-                    
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Welcome to Fiverbot! \nType /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+                       
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
 
-def weather(bot, update):
+def founder(bot, update):
     
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
-    url = 'https://www.google.com.sg/search?q=show+singapore+weather&oq=show+singapore+weather&aqs=chrome..69i57.3136j0j7&sourceid=chrome&ie=UTF-8'
-    res = requests.get(url)
-    soup = BeautifulSoup(res.text,'lxml')
-    quote = soup.find_all('span', attrs={'class':'wob_t'})
-    weath = soup.find_all('img', alt=True)
-    
-    now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d")
-    my_date = date.today()
-    
-    update.message.reply_text(time + " " + calendar.day_name[my_date.weekday()] + "\n"  + "Current Temperature: " + quote[0].string  + '\n' + "weather: " + weath[0]['alt'] + '\n'
-          "Range: " + quote[3].string + " - " + quote[2].string)
-    bot.sendMessage(chat_id=update.message.chat_id, text= "I'm ahbid, please talk to me! \nType /shows to view movies/tv shows, \nType /weather to get the weather, \nType /news to get the latest news, \nOr simple type anything to begin our conversation! ")
-      
-    
-weather_handler = CommandHandler('weather', weather)
-dispatcher.add_handler(weather_handler)
-
-def strip(word):
-    return word.strip().strip(',').strip(':').strip('(').strip(')').lower()
-
-
-def get_only_text(url):
-    page = urllib.request.urlopen(url).read().decode('utf8')
-    soup = BeautifulSoup(page, 'lxml')
-    text = ' '.join(map(lambda p: p.text, soup.find_all('p')))
-    return soup.title.text, text
-
-def news(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    newsworthy = 'http://www.straitstimes.com/print/top-of-the-news/rss.xml'
-    feed_xml = urllib.request.urlopen(newsworthy).read()
-    feed = BeautifulSoup(feed_xml.decode('utf8'), 'lxml')
-    to_summarize = list(map(lambda p: p.text, feed.find_all('guid')))
-
-    for article_url in to_summarize[:10]:
-        i = to_summarize[:10].index(article_url)
-        title, text = get_only_text(article_url)
-        bot.sendMessage(chat_id=update.message.chat_id, text='<b>' + str(i+1) + ". " + title[:-20] +'</b>' +'\n' + article_url, parse_mode=telegram.ParseMode.HTML)
+    bot.sendMessage(chat_id=update.message.chat_id,text="Shai Wininger and Micha Kaufman")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
         
-        #take out specific stop words
-        stop_words = set(stopwords.words('english'))
-        #split input text into sentences
-        input_text = sent_tokenize(text)
-        #getting freq of each word into a dict  
-        word_values = {}
+founder_handler = CommandHandler('founder', founder)
+dispatcher.add_handler(founder_handler)
 
-        for sentence in input_text:
-            words = sentence.split(' ')
-            for word in words:
-                word = strip(word)
-                if not word in stop_words:
-                    if not word in word_values:
-                        word_values[word] = 1
-                    else:
-                        word_values[word] += 1
-
-
-        sentence_values = []
-        for sentence in input_text:
-            sentence_value = 0   
-            words = sentence.split(' ')
-            for word in words:
-            #counts the sentence value using word_values dictionary
-                sentence_value += word_values.setdefault(word, 0)
-            sentence_values.append(sentence_value)
-            
-            
-
-        #how many sentences do you want = output_num
-        for ii in range(0, 2):
-            highest_val_ind = sentence_values.index(max(sentence_values))
-            
-            update.message.reply_text(input_text[highest_val_ind])
-            del input_text[highest_val_ind]
-            del sentence_values[highest_val_ind]
-
-    bot.sendMessage(chat_id=update.message.chat_id, text='<a href="http://libproxy.smu.edu.sg/login/sto1">Free Access!</a>', parse_mode=telegram.ParseMode.HTML)
-    bot.sendMessage(chat_id=update.message.chat_id, text= "I'm ahbid, please talk to me! \nType /shows to view movies/tv shows, \nType /weather to get the weather, \nType /news to get the latest news, \nOr simple type anything to begin our conversation! ")
-                       
-news_handler = CommandHandler('news', news)
-dispatcher.add_handler(news_handler)
-
-
-def shows(bot, update):
+def history(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
-    reply_keyboard = [['Yes', 'No']]
-
-    update.message.reply_text('Do you need suggestions?',
-    reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     
-shows_handler = CommandHandler('shows', shows)
-dispatcher.add_handler(shows_handler)
+    bot.sendMessage(chat_id=update.message.chat_id,text="February 1, 2010")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+      
+history_handler = CommandHandler('history', history)
+dispatcher.add_handler(history_handler)
 
-
-def echo(bot, update):
+def noofusers(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING) 
-    if update.message.text == 'Yes':
-        update.message.reply_text("http://www.imdb.com/search/title?groups=top_250&sort=user_rating&my_ratings=exclude")
-        bot.sendMessage(chat_id=update.message.chat_id, text= "I'm ahbid, please talk to me! \nType /shows to view movies/tv shows, \nType /weather to get the weather, \nType /news to get the latest news, \nOr simple type anything to begin our conversation! ")
+                       action=ChatAction.TYPING)
+    
+    bot.sendMessage(chat_id=update.message.chat_id,text="14 million users")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
       
-    elif update.message.text == 'No':
-        update.message.reply_text('What movie/tv show would you like to watch today? ')
-        pass
-    else:
-        update.message.reply_text('https://bmovies.is/search?keyword=' + update.message.text.replace(' ', '+'))
-        update.message.reply_text('https://www.google.com.sg/search?ei=CmUmWtmXNcqMvQSRp6_QDA&q=site%3Atvshows4mobile.com+' + update.message.text.replace(' ', '+'))
-        update.message.reply_text('https://www.google.com.sg/search?ei=72UmWseQA4XUvgTsv4CwDA&q=site%3Ahdmp4mania.mobi+' + update.message.text.replace(' ', '+'))
-        bot.sendMessage(chat_id=update.message.chat_id, text= "I'm ahbid, please talk to me! \nType /shows to view movies/tv shows, \nType /weather to get the weather, \nType /news to get the latest news, \nOr simple type anything to begin our conversation! ")
-      
-echo_handler = MessageHandler(Filters.text, echo)
-dispatcher.add_handler(echo_handler)
+noofusers_handler = CommandHandler('noofusers', noofusers)
+dispatcher.add_handler(noofusers_handler)
 
+def location(bot, update):
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action=ChatAction.TYPING)
+    
+    bot.sendMessage(chat_id=update.message.chat_id,text="3514 International Drive Northwest Washington, DC 20008 USA")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+      
+location_handler = CommandHandler('location', location)
+dispatcher.add_handler(location_handler)
+
+def number(bot, update):
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action=ChatAction.TYPING)
+    
+    bot.sendMessage(chat_id=update.message.chat_id,text="72-54-484-3988")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+      
+number_handler = CommandHandler('number', number)
+dispatcher.add_handler(number_handler)
+
+def email(bot, update):
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action=ChatAction.TYPING)
+    
+    bot.sendMessage(chat_id=update.message.chat_id,text="info@fiverr.com")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+      
+email_handler = CommandHandler('email', email)
+dispatcher.add_handler(email_handler)
 
 #do command to clear all message 
 #added last
 def unknown(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
-    bot.sendMessage(chat_id=update.message.chat_id, text= "I'm ahbid, please talk to me! \nType /shows to view movies/tv shows, \nType /weather to get the weather, \nType /news to get the latest news, \nOr simple type anything to begin our conversation! ")
-      
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+    
 unknown_handler = MessageHandler(Filters.command, unknown)
 dispatcher.add_handler(unknown_handler)
 
