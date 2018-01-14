@@ -34,6 +34,7 @@ updater.start_polling()
 def start(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Welcome to Fiverbot! Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
                    
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
