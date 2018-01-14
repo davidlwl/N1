@@ -34,7 +34,7 @@ updater.start_polling()
 def start(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
-    update.message.reply_text(chat_id=update.message.chat_id, text= "Welcome to Fiverbot!\n \nType /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
+    bot.sendMessage(chat_id=update.message.chat_id, text= "Welcome to Fiverbot!\n \nType /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
                        
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
@@ -44,7 +44,7 @@ def founder(bot, update):
     
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
-    update.message.reply_text(chat_id=update.message.chat_id,text="Shai Wininger and Micha Kaufman")
+    bot.sendMessage(chat_id=update.message.chat_id,text="Shai Wininger and Micha Kaufman")
     bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
         
 founder_handler = CommandHandler('founder', founder)
@@ -54,7 +54,7 @@ def history(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     
-    update.message.reply_text(chat_id=update.message.chat_id,text="February 1, 2010")
+    bot.sendMessage(chat_id=update.message.chat_id,text="February 1, 2010")
     bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
       
 history_handler = CommandHandler('history', history)
@@ -64,7 +64,7 @@ def noofusers(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     
-    update.message.reply_text(chat_id=update.message.chat_id,text="14 million users")
+    bot.sendMessage(chat_id=update.message.chat_id,text="14 million users")
     bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
       
 noofusers_handler = CommandHandler('noofusers', noofusers)
@@ -74,7 +74,7 @@ def location(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     
-    update.message.reply_text(chat_id=update.message.chat_id,text="3514 International Drive Northwest Washington, DC 20008 USA")
+    bot.sendMessage(chat_id=update.message.chat_id,text="3514 International Drive Northwest Washington, DC 20008 USA")
     bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
       
 location_handler = CommandHandler('location', location)
@@ -84,7 +84,7 @@ def number(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     
-    update.message.reply_text(chat_id=update.message.chat_id,text="72-54-484-3988")
+    bot.sendMessage(chat_id=update.message.chat_id,text="72-54-484-3988")
     bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
       
 number_handler = CommandHandler('number', number)
@@ -94,7 +94,7 @@ def email(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     
-    update.message.reply_text(chat_id=update.message.chat_id,text="info@fiverr.com")
+    bot.sendMessage(chat_id=update.message.chat_id,text="info@fiverr.com")
     bot.sendMessage(chat_id=update.message.chat_id, text= "Type /founder to find out who the founders of fiverr are \nType /history to get which year fiverr was founded \nType /noofusers to find out how many users currently use Fiverr \nType /location to find out the location of headquarters of Fiverr \nType /number to get Fiverr's corporate phone number\nType /email to get Fiverr's email")
       
 email_handler = CommandHandler('email', email)
