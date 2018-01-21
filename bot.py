@@ -93,43 +93,40 @@ def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
 
 
-def main():
-    # Create the EventHandler and pass it your bot's token.
-    #updater = Updater("525002581:AAFCaGvfaDIRdz938J--Bb83SPmn20V--Yo")
-    updater = Updater("521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ")
-    # Get the dispatcher to register handlers
-    dp = updater.dispatcher
 
-    # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', start)],
+# Create the EventHandler and pass it your bot's token.
+#updater = Updater("525002581:AAFCaGvfaDIRdz938J--Bb83SPmn20V--Yo")
+updater = Updater("521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ")
+# Get the dispatcher to register handlers
+dp = updater.dispatcher
 
-        states={
-            GENDER: [RegexHandler('^(кошка|собака|другое)$', animal)],
-            BIO: [RegexHandler('^(да, срочно|да, скоро|пока нет)$', homevisit)],
-            PHOTO: [RegexHandler('^(да|нет)$', consultation)],
-            LOCATION: [RegexHandler('^(статьи|ответы ветеринара|подпшитесь на нашу рассылку)$', read)],
-        },
+# Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
+conv_handler = ConversationHandler(
+    entry_points=[CommandHandler('start', start)],
 
-        fallbacks=[CommandHandler('cancel', cancel)]
-    )
+    states={
+        GENDER: [RegexHandler('^(кошка|собака|другое)$', animal)],
+        BIO: [RegexHandler('^(да, срочно|да, скоро|пока нет)$', homevisit)],
+        PHOTO: [RegexHandler('^(да|нет)$', consultation)],
+        LOCATION: [RegexHandler('^(статьи|ответы ветеринара|подпшитесь на нашу рассылку)$', read)],
+    },
 
-    dp.add_handler(conv_handler)
+    fallbacks=[CommandHandler('cancel', cancel)]
+)
 
-    # log all errors
-    dp.add_error_handler(error)
+dp.add_handler(conv_handler)
 
-    # Start the Bot
-    updater.start_polling()
+# log all errors
+dp.add_error_handler(error)
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
+# Start the Bot
+updater.start_polling()
+
+# Run the bot until you press Ctrl-C or the process receives SIGINT,
+# SIGTERM or SIGABRT. This should be used most of the time, since
+# start_polling() is non-blocking and will stop the bot gracefully.
     
 
-
-while True:
-  main()
 
 
     
