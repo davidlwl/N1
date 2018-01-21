@@ -4,10 +4,13 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
 
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+bot = telegram.Bot(token='521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ')
+updater = Updater("521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ")
+# Get the dispatcher to register handlers
+dp = updater.dispatcher
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+updater.start_polling()
 
-logger = logging.getLogger(__name__)
 
 GENDER,BIO,PHOTO,LOCATION = range(4)
 
@@ -96,9 +99,7 @@ def error(bot, update, error):
 
 # Create the EventHandler and pass it your bot's token.
 #updater = Updater("525002581:AAFCaGvfaDIRdz938J--Bb83SPmn20V--Yo")
-updater = Updater("521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ")
-# Get the dispatcher to register handlers
-dp = updater.dispatcher
+
 
 # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
 conv_handler = ConversationHandler(
@@ -116,15 +117,7 @@ conv_handler = ConversationHandler(
 
 dp.add_handler(conv_handler)
 
-# log all errors
-dp.add_error_handler(error)
 
-# Start the Bot
-updater.start_polling()
-
-# Run the bot until you press Ctrl-C or the process receives SIGINT,
-# SIGTERM or SIGABRT. This should be used most of the time, since
-# start_polling() is non-blocking and will stop the bot gracefully.
     
 
 
