@@ -12,7 +12,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 updater.start_polling()
 
 
-GENDER,BIO,PHOTO,LOCATION = range(4)
+GENDER,BIO,PHOTO,LOCATION,FINAL = range(4)
 
 def start(bot, update):
     reply_keyboard = [['кошка', 'собака', 'другое']]
@@ -27,7 +27,6 @@ def animal(bot, update):
     user = update.message.from_user
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
-    update.message.reply_text('Вам нужна ветпомощь на дому?')
     reply_keyboard = [['да, срочно', 'да, скоро','пока нет']]
 
     update.message.reply_text(
@@ -79,8 +78,22 @@ def read(bot, update):
         update.message.reply_text('http://www.veterinardoma.ru/veterinar-voprosy-otvety2.php')
     elif update.message.text == 'подпшитесь на нашу рассылку':
         update.message.reply_text('http://www.veterinardoma.ru/rassilka-veterinarnaya-pomosh.php')
-    update.message.reply_text('Press /start again to view options!')
+    
+    reply_keyboard = ['Получить скидку 100 р']
+    update.message.reply_text(
+        '',
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    
+    return FINAL
 
+def final(bot, update):
+    user = update.message.from_user
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action=ChatAction.TYPING)
+    if update.message.text == 'Получить скидку 100 р':
+        update.message.reply_text('КОД купона: 2018vet.')
+        
+    return ConversationHandler.END
     
 def cancel(bot, update):
     user = update.message.from_user
@@ -110,6 +123,7 @@ conv_handler = ConversationHandler(
         BIO: [RegexHandler('^(да, срочно|да, скоро|пока нет)$', homevisit)],
         PHOTO: [RegexHandler('^(да|нет)$', consultation)],
         LOCATION: [RegexHandler('^(статьи|ответы ветеринара|подпшитесь на нашу рассылку)$', read)],
+        FINAL: [RegexHandler('^(Получить скидку 100 р)$', final)]
     },
 
     fallbacks=[CommandHandler('cancel', cancel)]
