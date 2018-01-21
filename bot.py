@@ -1,7 +1,7 @@
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove,ChatAction)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
-
+import telegram
 import logging
 
 bot = telegram.Bot(token='521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ')
@@ -12,7 +12,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 updater.start_polling()
 
 
-GENDER,BIO,PHOTO,LOCATION,FINAL = range(4)
+GENDER,BIO,PHOTO,LOCATION,FINAL = range(5)
 
 def start(bot, update):
     reply_keyboard = [['кошка', 'собака', 'другое']]
@@ -79,9 +79,9 @@ def read(bot, update):
     elif update.message.text == 'подпшитесь на нашу рассылку':
         update.message.reply_text('http://www.veterinardoma.ru/rassilka-veterinarnaya-pomosh.php')
     
-    reply_keyboard = ['Получить скидку 100 р']
+    reply_keyboard = [['Получить скидку 100 р']]
     update.message.reply_text(
-        '',
+        '------------------------------',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     
     return FINAL
@@ -91,7 +91,7 @@ def final(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     if update.message.text == 'Получить скидку 100 р':
-        update.message.reply_text('КОД купона: 2018vet.')
+        update.message.reply_text('КОД купона: 2018vet')
         
     return ConversationHandler.END
     
@@ -102,12 +102,6 @@ def cancel(bot, update):
                               reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
-
-
-def error(bot, update, error):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, error)
-
 
 
 # Create the EventHandler and pass it your bot's token.
@@ -123,7 +117,7 @@ conv_handler = ConversationHandler(
         BIO: [RegexHandler('^(да, срочно|да, скоро|пока нет)$', homevisit)],
         PHOTO: [RegexHandler('^(да|нет)$', consultation)],
         LOCATION: [RegexHandler('^(статьи|ответы ветеринара|подпшитесь на нашу рассылку)$', read)],
-        FINAL: [RegexHandler('^(Получить скидку 100 р)$', final)]
+        FINAL: [RegexHandler('^(|Получить скидку 100 р|)$', final)]
     },
 
     fallbacks=[CommandHandler('cancel', cancel)]
