@@ -92,6 +92,7 @@ def final(bot, update):
                        action=ChatAction.TYPING)
     if update.message.text == 'Получить скидку 100 р':
         update.message.reply_text('КОД купона: 2018vet')
+        update.message.reply_text('подпишись VK: https://vk.com/vetclinicvasilek')
         
     return ConversationHandler.END
     
