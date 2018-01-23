@@ -4,8 +4,8 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
 import telegram
 import logging
 
-bot = telegram.Bot(token='521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ')
-updater = Updater("521629190:AAHMEmlRRuq29_8hbr6uui1tCGXImo_GOmQ")
+bot = telegram.Bot(token='506530871:AAFA2GkUQxtWWykLW34_o3_V5iqokydoXwI')
+updater = Updater("506530871:AAFA2GkUQxtWWykLW34_o3_V5iqokydoXwI")
 # Get the dispatcher to register handlers
 dp = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
