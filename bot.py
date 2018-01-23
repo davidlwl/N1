@@ -12,7 +12,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 updater.start_polling()
 
 
-GENDER,BIO,PHOTO,LOCATION,FINAL = range(5)
+GENDER,BIO,PHOTO,LOCATION,FINAL,FINAL2 = range(6)
 
 def start(bot, update):
     reply_keyboard = [['кошка', 'собака', 'другое']]
@@ -129,7 +129,7 @@ conv_handler = ConversationHandler(
         BIO: [RegexHandler('^(да, срочно|да, скоро|пока нет)$', homevisit)],
         PHOTO: [RegexHandler('^(да|нет)$', consultation)],
         LOCATION: [RegexHandler('^(статьи|ответы ветеринара|подпшитесь на нашу рассылку)$', read)],
-        FINAL: [RegexHandler('^(|Получить скидку 100 р|)$', final)]
+        FINAL: [RegexHandler('^(|Получить скидку 100 р|)$', final)],
         FINAL2: [RegexHandler('^(|подпишись VK|)$', final2)]
     },
 
