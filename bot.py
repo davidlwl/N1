@@ -91,8 +91,19 @@ def final(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     if update.message.text == 'Получить скидку 100 р':
-        update.message.reply_text('КОД купона: 2018vet')
-        update.message.reply_text('подпишись VK: https://vk.com/vetclinicvasilek')
+        reply_keyboard = [['подпишись VK']]
+    update.message.reply_text(
+        'КОД купона: 2018vet',
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+       
+    return FINAL2
+
+def final2(bot, update):
+    user = update.message.from_user
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action=ChatAction.TYPING)
+    if update.message.text == 'подпишись VK':
+        update.message.reply_text('https://vk.com/vetclinicvasilek')
         
     return ConversationHandler.END
     
@@ -119,6 +130,7 @@ conv_handler = ConversationHandler(
         PHOTO: [RegexHandler('^(да|нет)$', consultation)],
         LOCATION: [RegexHandler('^(статьи|ответы ветеринара|подпшитесь на нашу рассылку)$', read)],
         FINAL: [RegexHandler('^(|Получить скидку 100 р|)$', final)]
+        FINAL2: [RegexHandler('^(|подпишись VK|)$', final2)]
     },
 
     fallbacks=[CommandHandler('cancel', cancel)]
